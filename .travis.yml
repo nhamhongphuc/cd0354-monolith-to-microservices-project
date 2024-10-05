@@ -8,10 +8,10 @@ script:
   - docker-compose -f docker-compose-build.yaml build --parallel --no-cache
 
   # Tag images using DOCKER_USERNAME
-  - docker tag udagram-api-feed "$DOCKER_USERNAME"/udagram-api-feed:v1
-  - docker tag udagram-api-user "$DOCKER_USERNAME"/udagram-api-user:v1
-  - docker tag udagram-api-frontend "$DOCKER_USERNAME"/udagram-api-frontend:v1
-  - docker tag udagram-api-reverseproxy "$DOCKER_USERNAME"/udagram-api-reverseproxy:v1
+  - docker tag udagram-api-feed "$DOCKER_USERNAME/udagram-api-feed:v1"
+  - docker tag udagram-api-user "$DOCKER_USERNAME/udagram-api-user:v1"
+  - docker tag udagram-api-frontend "$DOCKER_USERNAME/udagram-api-frontend:v1"
+  - docker tag udagram-api-reverseproxy "$DOCKER_USERNAME/udagram-api-reverseproxy:v1"
 
 before_deploy:
   # Log in to DockerHub
@@ -19,10 +19,10 @@ before_deploy:
 
 deploy:
   # Push images to DockerHub
-  - docker push "$DOCKER_USERNAME"/udagram-api-feed:v1
-  - docker push "$DOCKER_USERNAME"/udagram-api-user:v1
-  - docker push "$DOCKER_USERNAME"/udagram-api-frontend:v1
-  - docker push "$DOCKER_USERNAME"/udagram-api-reverseproxy:v1
+  - docker push "$DOCKER_USERNAME/udagram-api-feed:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-user:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-frontend:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-reverseproxy:v1"
 
 # Optionally, specify which branches to build
 branches:
