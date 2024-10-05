@@ -1,0 +1,35 @@
+language: minimal
+
+services:
+  - docker
+
+before_install:
+  # Install Docker Compose
+  - curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
+
+script:
+  # Build images using docker-compose
+  - docker-compose -f docker-compose-build.yaml build --parallel --no-cache
+
+  # Tag images using DOCKER_USERNAME
+  - docker tag udagram-api-feed "$DOCKER_USERNAME/udagram-api-feed:v1"
+  - docker tag udagram-api-user "$DOCKER_USERNAME/udagram-api-user:v1"
+  - docker tag udagram-api-location "$DOCKER_USERNAME/udagram-api-location:v1"
+  - docker tag udagram-api-notification "$DOCKER_USERNAME/udagram-api-notification:v1"
+
+before_deploy:
+  # Log in to DockerHub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+deploy:
+  # Push images to DockerHub
+  - docker push "$DOCKER_USERNAME/udagram-api-feed:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-user:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-location:v1"
+  - docker push "$DOCKER_USERNAME/udagram-api-notification:v1"
+
+# Optionally, specify which branches to build
+branches:
+  only:
+    - main  # or your specific branch
