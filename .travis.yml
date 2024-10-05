@@ -5,7 +5,7 @@ services:
 
 script:
   # Build images using docker-compose
-  - docker-compose -f docker-compose-build.yaml build --parallel --no-cache
+  - docker-compose -f docker-compose-build.yaml build --parallel
 
   # Tag images using DOCKER_USERNAME
   - docker tag udagram-api-feed "$DOCKER_USERNAME/udagram-api-feed:v1"
@@ -13,11 +13,10 @@ script:
   - docker tag udagram-frontend "$DOCKER_USERNAME/udagram-frontend:v1"
   - docker tag reverseproxy "$DOCKER_USERNAME/reverseproxy:v1"
 
-before_deploy:
+after_success:
   # Log in to DockerHub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-deploy:
   # Push images to DockerHub
   - docker push "$DOCKER_USERNAME/udagram-api-feed:v1"
   - docker push "$DOCKER_USERNAME/udagram-api-user:v1"
