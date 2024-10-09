@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: udagram-reverseproxy
-          image: docker.io/nhamhongphuc/reverseproxy:v1
+          image: docker.io/nhamhongphuc/reverseproxy:v2
           ports:
             - containerPort: 80
           imagePullPolicy: Always
